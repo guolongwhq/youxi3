@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+      .box{
+      	width: 1226px;
+      	height: 600px;
+      	margin:0 auto;
+      	position: relative;
+            overflow: hidden;
+      }
+      .box1 img{
+      	width: 1226px;
+      	height: 600px;
+      	
+      }
+      .yshan,.jshan{
+         position: absolute;
+            bottom:0;   
+      }
+      .yshan img, .jshan img{
+      	width: 1226px;
+      	height: 300px;
+      	
+      }
+      
+      .moon{
+            position: absolute;
+            top:60px;
+            left:60px;
+
+      }
+      .moon img{
+      	width: 100px;
+      	height: auto;
+      	
+      }
+      .lefttree{
+             position: absolute;
+            left: 0;
+            bottom: 0;
+
+      }
+      .righttree{
+             position: absolute;
+            right: 0;
+            bottom: 0;
+      }
+      .lefttree img,.righttree img{
+            width: 200px;
+            height: 200px;
+           
+      }
+      .star{
+            position: absolute;
+            top:30px;
+            left:300px;
+
+      }
+      .star img{
+            width: 500px;
+            height: 200px;
+      }
+      .nebu{
+            position: absolute;
+            top:50px;
+            left: 200px;
+      }
+      .nebu img{
+            width: 500px;
+            height: 150px;
+
+      }
+	</style>
+	<script src="js/function.js"></script>
+	<script>
+       $(function(){
+       	var box=$('.box')[0];
+       	var yshan=$('.yshan')[0];
+            var jshan=$('.jshan')[0];
+            var moon=$('.moon')[0];
+            var lefttree=$('.lefttree')[0];
+            var righttree=$('.righttree')[0];
+            var star=$('.star')[0];
+            var nebu=$('.nebu')[0];
+             console.log(moon)
+       	var gw=document.documentElement.clientWidth/2;
+       	var gh=document.documentElement.clientHeight/2;
+       	box.onmousemove=function(e){
+       		var ev=e||window.event;
+       		var ex=ev.clientX;
+                  var ey=ev.clientY;
+       		// console.log(cw)
+       	yshan.style.marginLeft=0.02*(ex-gw)+"px";
+            jshan.style.marginLeft=0.02*(ex-gw)+"px";
+            moon.style.marginLeft=0.009*(ex-gw)+'px';
+            lefttree.style.left=0.02*(ex-gw)+"px";
+            righttree.style.right=0.02*(ex-gw)+"px";
+              star.style.marginLeft=0.02*(ex-gw)+"px";
+               nebu.style.marginLeft=0.02*(ex-gw)+"px";
+               yshan.style.marginBottom=0.02*(ey-gh)+"px";
+            jshan.style.marginBottom=0.02*(ey-gh)+"px";
+            moon.style.top=0.009*(ey-gh)+'px';
+            lefttree.style.marginBottom=0.02*(ey-gh)+"px";
+            righttree.style.marginBottom=0.02*(ey-gh)+"px";
+              star.style.top=0.01*(ey-gh)+"px";
+               nebu.style.top=0.02*(ey-gh)+"px";
+
+
+       		
+       	}
+       })
+	</script>
+</head>
+<body>
+	<div class="box">
+		<div class="box1"><img src="images/night_sky_background.jpg" alt=""></div>
+         <div class="yshan">
+		<img src="images/intro_bottom_background.png" alt="">
+	</div>
+	<div class="jshan"><img src="images/intro_foreground_bottom.png" alt=""></div>
+	<div class="moon"><img src="images/moon_background.png" alt=""></div>
+      <div class="lefttree"><img src="images/tree_left_background.png" alt=""></div>
+      <div class="righttree"><img src="images/tree_right_background.png" alt=""></div>
+      <div class="star"><img src="images/shooting_stars_background.png" alt=""></div>
+      <div class="nebu"><img src="images/nebula_background.png" alt=""></div>
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="js/function.js"></script>
+	<script src="js/animate.js"></script>
+	<style>
+		body,html{
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+		.changjing{
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			background:url(images/ban3.jpg) no-repeat center center;
+			background-size: cover;
+		}
+		.life{
+			width: 300px;
+			height: 30px;
+			background: red;
+			position: absolute;
+			top: 50px;
+			left: 100px;
+		}
+		.smz{
+			width: 60px;
+			height: 30px;
+			color: #fff;
+			margin-left: -60px;
+			text-align: center;
+			line-height: 30px;
+
+		}
+		.score{
+			width: 30px;
+			height: 30px;
+			position: absolute;
+			top: 90px;
+			left: 100px;
+		}
+		.cj{
+			color: #fff;
+			width: 60px;
+			height: 30px;
+			margin-left: -60px;
+			text-align: center;
+			line-height: 30px;
+
+		}
+		.sz{
+			color: #FF069B;
+			margin-top: -32px;
+			font-size: 30px;
+			font-weight: bold;
+
+		}
+		.start img{
+			width: 100px;
+			height: 100px;
+			position: absolute;
+			bottom: 30px;
+			left: 30px;
+			
+		}
+		.stop{
+			width: 100px;
+			height: 50px;
+			background: blue;
+			position: absolute;
+			bottom: 30px;
+			right: 30px;
+			cursor: pointer;
+			border-radius: 30%;
+			color: #fff;
+			font-size: 30px;
+			text-align: center;
+			line-height: 50px;
+		}
+		
+	
+	</style>	
+</head>
+<body>
+	<div class="changjing">
+	<div class="life"><div class="smz">生命</div></div>
+		<div class="score">
+			<div class="cj">得分：</div>
+			<div class="sz">0</div>
+		</div>
+		<div class="chihuo"></div>
+		<div class="start"><img src="./images/2.jpg" alt=""></div>
+		<div class="stop">stop</div>
+	</div>
+	<script>
+		// var btu=document.getElementById('btu');
+		// var btn=document.getElementById('btn');
+		//  var gameTimer;
+	 //     btn.onclick=function(){
+  //          gameTimer=new game($('.changjing')[0]);
+  //      }
+	    
+	 //     btu.onclick=function(){
+  //          clearInterval(new game($('.changjing')[0]));
+         
+	 //     }
+			function game(box){
+				this.box=box;
+				this.letter=['A','B','C','D','E','F','G','H','I','J','K','L','M',
+				'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+				this.num=5;
+				this.speed=2;//速度
+				this.life=10;//生命
+				this.level=1;//关卡
+				this.score=0;//分数
+				this.letterArr=[];
+				this.cw=document.documentElement.clientWidth;
+				this.ch=document.documentElement.clientHeight;
+				this.start();
+				
+			}
+			
+			game.prototype={
+				getLetter:function(num){
+					var that=this; 
+					for(var i=0;i<num;i++){
+						var div=$('<div>');
+						 div.style.cssText="position:absolute;color:#FF8E3B;font-weight:bold; text-align: center;line-height:40px;width:40px;height:40px;background:url(images/4.png);left:"+(Math.random()*(this.cw-400)+200)+"px;top:"+(Math.random()*(-50)-50)+'px';
+						div.innerHTML=this.letter[Math.floor(Math.random()*this.letter.length)];
+						// div.style.backgroundImage="url(images/3.jpg)"
+						that.box.appendChild(div);
+						that.letterArr.push(div);
+					}
+				},
+				play:function(){
+					var flag=false;
+					var that=this;
+					var k=500;
+					var t=setInterval(move,50);
+
+					function move(){
+						if(that.letterArr.length<that.num){
+							that.getLetter(that.num-that.letterArr.length);
+						}
+						for(var i=0;i<that.letterArr.length;i++){
+							that.letterArr[i].style.top=that.letterArr[i].offsetTop+that.speed+'px';
+						if(that.letterArr[i].offsetTop>that.ch){
+							var li=$('.life')[0];
+							k=k-50;
+							li.style.width=k+"px";
+							if(k==0){
+								alert('游戏结束');
+								return;
+							}
+							
+							that.box.removeChild(that.letterArr[i]);//从DOM里删除
+							that.letterArr.splice(i,1);//删除数组里面的元素
+							}//如果落到超出屏幕高度。将其移出。移出数组，移出
+						}
+					}
+					var stop=$('.stop')[0];
+					stop.onclick=function(){
+						if(!flag){
+							clearInterval(t);
+							flag=true;
+						}
+						else{
+							t=setInterval(move,50);
+							flag=false;
+							
+						}
+						
+					}
+
+				},
+				key:function(){
+					var that=this;
+					var sz=$('.sz')[0];
+					var k=0;
+					document.onkeydown=function(e){
+						var ev=e||window.event;
+						var lett=String.fromCharCode(ev.keyCode);
+						for(var i=0;i<that.letterArr.length;i++){
+							if(that.letterArr[i].innerHTML==lett){ //如果按对了
+								that.box.removeChild(that.letterArr[i]);
+								that.letterArr.splice(i,1);//删除数组里面的元素
+								that.score+=1;//分数加一
+								k++;
+								sz.innerHTML=k;
+								if(k==100){
+									alert('恭喜过关');
+								
+								}
+								break;//解决一下子消除两个一样的字符
+							}
+						}
+					}
+				},
+			start:function(){
+					var flag=false;
+					var that=this;
+					var ch=$('.chihuo')[0];
+					var start=$('.start')[0];
+					ch.style.display="none"
+					start.onclick=function(){
+						if(!flag){
+						that.getLetter();
+						that.play();
+						that.key();
+						ch.style.display="block"
+						flag=true;
+						}
+					}
+					
+				}
+}
+		box=new game($('.changjing')[0])
+		
+	</script>
+</body>
+</html>
